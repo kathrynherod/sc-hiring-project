@@ -1,15 +1,26 @@
 {{page-title "Candidates"}}
-{{outlet}}
 
-<h1>Listing candidates</h1>
+  <h1 class="mb-4">Listing candidates</h1>
 
-{{#each model as |applicant|}}
-<div>
-  <h2>{{applicant.name}}</h2>
-  <p>Age: {{applicant.name}}</p>
-</div>
-{{else}}
-<div>No records found</div>
-{{/each}}
+  {{#each model as |applicant i|}}
+    <div class="card bg-light mb-3">
+      <div class="card-body">
+        <h2 class="card-title">{{applicant.name}}</h2>
+        <p class="card-text">Age: {{applicant.age}}</p>
+      </div>
+    </div>
+  {{else}}
+    <div>No records found</div>
+  {{/each}}
 
-<button {{on 'click' (action 'addNew')}} >Add new</button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    {{on "click" (action "toggleModal")}}
+  >
+    Add new
+  </button>
+
+{{#if this.isModalOpen}}
+  <Modal @onSubmit={{action "saveCandidate"}} @onHide={{action "toggleModal"}}/>
+{{/if}}

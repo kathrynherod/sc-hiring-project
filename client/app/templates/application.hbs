@@ -1,5 +1,16 @@
-{{page-title "Client"}}
+<div class="container">
+    {{page-title "Client"}}
 
-{{link-to 'Candidates' 'candidates'}}
+    <ul class="nav">
+        <li class="nav-item">
+            <LinkTo class="nav-link" @route="index">Home</LinkTo>
+        </li>
+        <li class="nav-item">
+            <LinkTo class="nav-link" @route="candidates">Candidates</LinkTo>
+        </li>
+    </ul>
 
-{{outlet}}
+    <div class="container">
+        {{outlet}}
+    </div>
+</div>

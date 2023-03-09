@@ -4,6 +4,7 @@ use Phalcon\Loader;
 use Phalcon\Mvc\Micro;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Db\Adapter\Pdo\Mysql as PdoMysql;
+use Phalcon\Http\Response;
 
 $loader = new Loader();
 $loader->registerNamespaces(
@@ -68,6 +69,37 @@ $app->get(
 
     header('Content-type: application/vnd.api+json'); // JSON API
     echo json_encode(['data' => $data]);
+  }
+);
+
+$app->post(
+  '/api/applicants',
+  function () use ($app) {
+    $applicant = $app->request->getJsonRawBody();
+    $applicant = $applicant->data->attributes;
+
+    $name = $applicant->name;
+    $age = $applicant->age;
+
+    $phql = "INSERT INTO App\Models\Candidates (name,age) VALUES ('$name', '$age')";
+
+    $status = $app
+      ->modelsManager
+      ->executeQuery($phql);
+
+    // Check if the insertion was successful
+    if ($status->success() === true) {
+        $data = [
+          'type' => 'applicant',
+          'id'   => $applicant->id,
+          'attributes' => [
+            'name' => $applicant->name,
+            'age' => $applicant->age,
+          ]
+          ];
+        header('Content-type: application/vnd.api+json'); // JSON API
+        echo json_encode(['data' => $data]);
+    }
   }
 );
 

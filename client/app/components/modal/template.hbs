@@ -1,0 +1,43 @@
+<BsModal
+    @position="center"
+    @size="lg"
+    @onHide={{@onHide}}
+    as |Modal|
+>
+    <Modal.body>
+        <form>
+            <div class="form-group">
+                <label for="nameInput">Email address</label>
+                <Input
+                    id="nameInput"
+                    class="form-control"
+                    @placeholder="Name"
+                    @required={{true}}
+                    @type="text"
+                    @value={{this.newCandidate.name}}
+                />
+                {{this.isNameValid}}
+            </div>
+            <div class="form-group">
+                <label for="ageInput">Age</label>
+                <Input
+                    id="ageInput"
+                    class="form-control"
+                    @placeholder="Age"
+                    @required={{true}}
+                    @type="number"
+                    @value={{this.newCandidate.age}}
+                />
+                {{this.isAgeValid}}
+            </div>
+            <button
+                class="btn btn-primary"
+                disabled={{this.saveDisabled}}
+                type="submit"
+                {{on "click" (action @onSubmit this.newCandidate)}}
+            >
+                Submit
+            </button>
+        </form>
+    </Modal.body>
+</BsModal>
